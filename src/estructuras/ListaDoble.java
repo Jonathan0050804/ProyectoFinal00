@@ -1,8 +1,8 @@
 package estructuras;
 
-public class ListaDoble {
-    private NodoDoble cabeza;
-    private NodoDoble cola;
+public class ListaDoble<T> {
+    private NodoDoble<T> cabeza;
+    private NodoDoble<T> cola;
     private int tamano;
 
     public ListaDoble() {
@@ -11,34 +11,83 @@ public class ListaDoble {
         tamano = 0;
     }
 
-    public void insertarAlFinal(Object dato) {
-        NodoDoble nuevo = new NodoDoble(dato);
-
+    public void insertarAlInicio(T dato) {
+        NodoDoble<T> nuevo = new NodoDoble<>(dato);
         if (cabeza == null) {
             cabeza = nuevo;
             cola = nuevo;
         } else {
-            cola.siguiente = nuevo;   // el último actual apunta al nuevo
-            nuevo.anterior = cola;    // el nuevo apunta de vuelta
-            cola = nuevo;             // el nuevo es ahora el último
+            nuevo.siguiente = cabeza;
+            cabeza.anterior = nuevo;
+            cabeza = nuevo;
         }
         tamano++;
     }
 
-    public void recorrer() {
-        NodoDoble actual = cabeza;
+    public void insertarAlFinal(T dato) {
+        NodoDoble<T> nuevo = new NodoDoble<>(dato);
+        if (cabeza == null) {
+            cabeza = nuevo;
+            cola = nuevo;
+        } else {
+            cola.siguiente = nuevo;
+            nuevo.anterior = cola;
+            cola = nuevo;
+        }
+        tamano++;
+    }
+
+    public boolean buscar(T dato) {
+        NodoDoble<T> actual = cabeza;
         while (actual != null) {
-            System.out.println(actual.dato);
+            if (actual.dato.equals(dato)) {
+                return true;
+            }
             actual = actual.siguiente;
         }
+        return false;
+    }
+
+    public void eliminar(T dato) {
+        NodoDoble<T> actual = cabeza;
+
+        while (actual != null && !actual.dato.equals(dato)) {
+            actual = actual.siguiente;
+        }
+
+        if (actual == null) return;
+
+        if (actual.anterior != null) {
+            actual.anterior.siguiente = actual.siguiente;
+        } else {
+            cabeza = actual.siguiente;
+        }
+
+        if (actual.siguiente != null) {
+            actual.siguiente.anterior = actual.anterior;
+        } else {
+            cola = actual.anterior;
+        }
+
+        tamano--;
+    }
+
+    public void recorrer() {
+        NodoDoble<T> actual = cabeza;
+        while (actual != null) {
+            System.out.print(actual.dato + ", ");
+            actual = actual.siguiente;
+        }
+        System.out.println();
     }
 
     public void recorrerAlReves() {
-        NodoDoble actual = cola;
+        NodoDoble<T> actual = cola;
         while (actual != null) {
-            System.out.println(actual.dato);
+            System.out.print(actual.dato + ", ");
             actual = actual.anterior;
         }
+        System.out.println();
     }
 
     public int getTamano() {

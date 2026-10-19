@@ -1,12 +1,11 @@
 package estructuras;
 
-public class NodoSimple {
-      Object dato;
-    NodoSimple siguiente;
+public class NodoSimple<T> {
+    T dato;
+    NodoSimple<T> siguiente;
 
-    public NodoSimple(Object dato) {
+    public NodoSimple(T dato) {
         this.dato = dato;
         this.siguiente = null;
     }
 }
-

@@ -1,7 +1,7 @@
 package estructuras;
 
-public class ListaSimple {
-    private NodoSimple cabeza;
+public class ListaSimple<T> {
+    private NodoSimple<T> cabeza;
     private int tamano;
 
     public ListaSimple() {
@@ -9,13 +9,19 @@ public class ListaSimple {
         tamano = 0;
     }
 
-    public void insertarAlFinal(Object dato) {
-        NodoSimple nuevo = new NodoSimple(dato);
+    public void insertarAlInicio(T dato) {
+        NodoSimple<T> nuevo = new NodoSimple<>(dato);
+        nuevo.siguiente = cabeza;
+        cabeza = nuevo;
+        tamano++;
+    }
 
+    public void insertarAlFinal(T dato) {
+        NodoSimple<T> nuevo = new NodoSimple<>(dato);
         if (cabeza == null) {
             cabeza = nuevo;
         } else {
-            NodoSimple actual = cabeza;
+            NodoSimple<T> actual = cabeza;
             while (actual.siguiente != null) {
                 actual = actual.siguiente;
             }
@@ -24,15 +30,8 @@ public class ListaSimple {
         tamano++;
     }
 
-    public void insertarAlInicio(Object dato) {
-        NodoSimple nuevo = new NodoSimple(dato);
-        nuevo.siguiente = cabeza;
-        cabeza = nuevo;
-        tamano++;
-    }
-
-    public boolean buscar(Object dato) {
-        NodoSimple actual = cabeza;
+    public boolean buscar(T dato) {
+        NodoSimple<T> actual = cabeza;
         while (actual != null) {
             if (actual.dato.equals(dato)) {
                 return true;
@@ -42,20 +41,17 @@ public class ListaSimple {
         return false;
     }
 
-    public void eliminar(Object dato) {
+    public void eliminar(T dato) {
         if (cabeza == null) {
             return;
         }
-
         if (cabeza.dato.equals(dato)) {
             cabeza = cabeza.siguiente;
             tamano--;
             return;
         }
-
-        NodoSimple anterior = cabeza;
-        NodoSimple actual = cabeza.siguiente;
-
+        NodoSimple<T> anterior = cabeza;
+        NodoSimple<T> actual = cabeza.siguiente;
         while (actual != null) {
             if (actual.dato.equals(dato)) {
                 anterior.siguiente = actual.siguiente;
@@ -68,11 +64,12 @@ public class ListaSimple {
     }
 
     public void recorrer() {
-        NodoSimple actual = cabeza;
+        NodoSimple<T> actual = cabeza;
         while (actual != null) {
-            System.out.println(actual.dato);
+            System.out.print(actual.dato + ", ");
             actual = actual.siguiente;
         }
+        System.out.println();
     }
 
     public int getTamano() {
