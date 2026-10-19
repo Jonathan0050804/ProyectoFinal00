@@ -2,11 +2,17 @@ package estructuras;
 
 public class Prueba {
     public static void main(String[] args) {
-        ListaSimple lista = new ListaSimple();
-        lista.insertarAlFinal("Hola");
-        lista.insertarAlFinal("Mundo");
-        lista.insertarAlFinal("Lista");
+        ListaDoble lista = new ListaDoble();
+        lista.insertarAlFinal("A");
+        lista.insertarAlFinal("B");
+        lista.insertarAlFinal("C");
+
+        System.out.println("--- Hacia adelante ---");
         lista.recorrer();
+
+        System.out.println("--- Hacia atrás ---");
+        lista.recorrerAlReves();
+
         System.out.println("Tamaño: " + lista.getTamano());
     }
 }
