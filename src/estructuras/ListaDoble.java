@@ -11,7 +11,18 @@ public T obtenerPrimero() {
     }
     return cabeza.dato;
 }    
-
+public T obtenerEn(int posicion) {
+    NodoDoble<T> actual = cabeza;
+    int i = 0;
+    while (actual != null) {
+        if (i == posicion) {
+            return actual.dato;
+        }
+        actual = actual.siguiente;
+        i++;
+    }
+    return null;
+}
     public ListaDoble() {
         cabeza = null;
         cola = null;

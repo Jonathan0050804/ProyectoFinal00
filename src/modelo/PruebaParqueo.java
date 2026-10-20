@@ -12,12 +12,12 @@ public class PruebaParqueo {
         System.out.println(a1.derecha.abajo.getId());        // B2
         System.out.println(a1.arriba);                       // null
 
-        Espacio e1 = p.asignar("P001", TipoEspacio.SOCIO);
-        Espacio e2 = p.asignar("P002", TipoEspacio.SOCIO);
-        System.out.println(e1.getId());                      // A1
-        System.out.println(e2.getId());                      // A2
-        p.liberar("P001");
-        Espacio e3 = p.asignar("P003", TipoEspacio.SOCIO);
+Espacio e1 = p.asignar(new Vehiculo("P001", "Toyota", "Yaris", "Rojo", "carro"), TipoEspacio.SOCIO);
+Espacio e2 = p.asignar(new Vehiculo("P002", "Honda", "Civic", "Azul", "carro"), TipoEspacio.SOCIO);
+System.out.println(e1.getId());                      // A1
+System.out.println(e2.getId());                      // A2
+p.liberar("P001");
+Espacio e3 = p.asignar(new Vehiculo("P003", "Kia", "Rio", "Negro", "carro"), TipoEspacio.SOCIO);
         System.out.println(e3.getId());                      // A1
         System.out.println(p.liberar("NOEXISTE"));           // null
     }

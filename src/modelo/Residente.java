@@ -9,6 +9,11 @@ public class Residente {
     private boolean socio;
     private ListaSimple<Vehiculo> vehiculos = new ListaSimple<>();
 
+    public void setNombre(String nombre) { this.nombre = nombre; }
+public void setCasa(String casa) { this.casa = casa; }
+public void setSocio(boolean socio) { this.socio = socio; }
+
+
     public static final int MAX_VEHICULOS = 3;
 
     public Residente(String id, String nombre, String casa, boolean socio) {
@@ -46,5 +51,7 @@ public class Residente {
     @Override
     public String toString() {
         return id + " - " + nombre + (socio ? " (socio)" : "");
+
+        
     }
 }

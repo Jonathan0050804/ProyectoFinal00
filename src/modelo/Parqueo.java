@@ -99,7 +99,7 @@ public class Parqueo {
         return null;
     }
 
-public Espacio asignar(Vehiculo v, TipoEspacio tipo) {
+public synchronized Espacio asignar(Vehiculo v, TipoEspacio tipo) {
     Espacio libre = buscarLibre(tipo);
     if (libre == null) {
         return null;
@@ -124,7 +124,7 @@ if (actual.isOcupado() && placa.equals(actual.getVehiculo().getPlaca())) {
         return null;
     }
 
-    public Espacio liberar(String placa) {
+    public synchronized Espacio liberar(String placa) {
         Espacio e = buscarPorPlaca(placa, filasSocios);
         if (e == null) {
             e = buscarPorPlaca(placa, filasGeneral);
@@ -134,4 +134,15 @@ if (actual.isOcupado() && placa.equals(actual.getVehiculo().getPlaca())) {
         }
         return e;
     }
+    public synchronized Espacio asignarSegunTipo(Vehiculo v, boolean esSocio) {
+    if (esSocio) {
+        Espacio e = asignar(v, TipoEspacio.SOCIO);
+        if (e != null) {
+            return e;
+        }
+    }
+    return asignar(v, TipoEspacio.GENERAL);
+}
+public Espacio getInicioGeneral() { return filasGeneral.obtenerPrimero(); }
+
 }

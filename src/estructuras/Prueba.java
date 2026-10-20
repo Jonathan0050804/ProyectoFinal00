@@ -1,6 +1,5 @@
 package estructuras;
 
-import modelo.Parqueo;
 
 public class Prueba {
     public static void main(String[] args) {
@@ -42,6 +41,6 @@ public class Prueba {
         System.out.println("Pila desapilar: " + pila.desapilar()); // Evento 2
         System.out.println("Pila tamaño: " + pila.getTamano());   // 1
 
-        Parqueo p = new Parqueo();
+        
     }
 }
