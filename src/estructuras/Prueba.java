@@ -43,6 +43,5 @@ public class Prueba {
         System.out.println("Pila tamaño: " + pila.getTamano());   // 1
 
         Parqueo p = new Parqueo();
-p.imprimirFila();    // A1 A2 A3 A4 A5
     }
 }

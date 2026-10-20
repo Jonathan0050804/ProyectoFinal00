@@ -1,0 +1,24 @@
+package modelo;
+
+public class PruebaParqueo {
+    public static void main(String[] args) {
+        Parqueo p = new Parqueo();
+        System.out.println("Espacios: " + p.contarEspacios());   // 150
+
+        Espacio a1 = p.getInicioSocios();
+        System.out.println(a1.getId());                      // A1
+        System.out.println(a1.abajo.getId());                // B1
+        System.out.println(a1.abajo.abajo.arriba.getId());   // B1
+        System.out.println(a1.derecha.abajo.getId());        // B2
+        System.out.println(a1.arriba);                       // null
+
+        Espacio e1 = p.asignar("P001", TipoEspacio.SOCIO);
+        Espacio e2 = p.asignar("P002", TipoEspacio.SOCIO);
+        System.out.println(e1.getId());                      // A1
+        System.out.println(e2.getId());                      // A2
+        p.liberar("P001");
+        Espacio e3 = p.asignar("P003", TipoEspacio.SOCIO);
+        System.out.println(e3.getId());                      // A1
+        System.out.println(p.liberar("NOEXISTE"));           // null
+    }
+}

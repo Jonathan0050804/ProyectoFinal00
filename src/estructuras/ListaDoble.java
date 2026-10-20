@@ -5,6 +5,13 @@ public class ListaDoble<T> {
     private NodoDoble<T> cola;
     private int tamano;
 
+public T obtenerPrimero() {
+    if (cabeza == null) {
+        return null;
+    }
+    return cabeza.dato;
+}    
+
     public ListaDoble() {
         cabeza = null;
         cola = null;
