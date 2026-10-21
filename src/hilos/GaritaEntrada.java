@@ -24,7 +24,10 @@ public class GaritaEntrada implements Runnable {
         try {
             while (true) {
                 Vehiculo v = colaEntrada.desencolar();
+                enAtencion = v;                      // empieza a atender
                 Thread.sleep(800);
+                                                    // ... asignar espacio y apilar evento ...
+                enAtencion = null;                   // termina
 
                 // Residente socio -> puede usar A-C; visitante o no socio -> solo general
                 Residente dueno = gestor.buscarDuenoPorPlaca(v.getPlaca());
@@ -44,4 +47,9 @@ public class GaritaEntrada implements Runnable {
             // hilo detenido
         }
     }
+
+    private volatile Vehiculo enAtencion;   // null = libre
+
+public Vehiculo getEnAtencion() { return enAtencion; }
+
 }

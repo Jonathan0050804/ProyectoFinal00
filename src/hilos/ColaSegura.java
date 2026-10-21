@@ -11,6 +11,10 @@ public class ColaSegura<T> {
         notifyAll();            // despierta a las garitas dormidas
     }
 
+    public synchronized T obtenerEn(int posicion) {
+    return cola.obtenerEn(posicion);
+}
+
     // Lo llaman las garitas (consumen)
     public synchronized T desencolar() throws InterruptedException {
         while (cola.estaVacia()) {     // while, NO if

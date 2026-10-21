@@ -6,31 +6,76 @@ import java.awt.*;
 
 public class PanelParqueo extends JPanel {
     private final Parqueo parqueo;
+    private final JLabel[][] celdasSocios = new JLabel[3][25];
+    private final JLabel[][] celdasGeneral = new JLabel[5][15];
 
     public PanelParqueo(Parqueo parqueo) {
         this.parqueo = parqueo;
-        setLayout(new GridLayout(2, 1, 5, 5));   // área socios arriba, general abajo
-        add(crearArea("Área de socios (A-C)", parqueo.getInicioSocios(), 25));
-        add(crearArea("Área general (E-I)", parqueo.getInicioGeneral(), 15));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        add(crearSeccion("Área de Socios (A - C)", 3, 25, parqueo.getInicioSocios(), celdasSocios));
+        add(Box.createRigidArea(new Dimension(0, 15)));
+        add(crearSeccion("Área General (E - I)", 5, 15, parqueo.getInicioGeneral(), celdasGeneral));
     }
 
-    private JPanel crearArea(String titulo, Espacio inicio, int columnas) {
-        JPanel area = new JPanel(new GridLayout(0, columnas, 2, 2));
-        area.setBorder(BorderFactory.createTitledBorder(titulo));
+    private JPanel crearSeccion(String titulo, int filas, int columnas,
+                                Espacio inicio, JLabel[][] matrizCeldas) {
+        JPanel panel = new JPanel(new BorderLayout(5, 5));
+        panel.setBorder(BorderFactory.createTitledBorder(titulo));
 
-        Espacio inicioFila = inicio;
-        while (inicioFila != null) {
-            Espacio actual = inicioFila;
-            while (actual != null) {
-                JLabel celda = new JLabel(actual.getId(), SwingConstants.CENTER);
+        JPanel grid = new JPanel(new GridLayout(filas, columnas, 2, 2));
+
+        Espacio filaActual = inicio;
+        for (int f = 0; f < filas; f++) {
+            Espacio colActual = filaActual;
+            for (int c = 0; c < columnas; c++) {
+                JLabel celda = new JLabel(colActual != null ? colActual.getId() : "",
+                                          SwingConstants.CENTER);
                 celda.setOpaque(true);
-                celda.setBackground(Color.GREEN);
-                celda.setFont(new Font("SansSerif", Font.PLAIN, 9));
-                area.add(celda);
-                actual = actual.derecha;
+                celda.setBackground(new Color(144, 238, 144));
+                celda.setForeground(Color.BLACK);
+                celda.setFont(new Font("SansSerif", Font.BOLD, 9));
+                celda.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                celda.setPreferredSize(new Dimension(35, 25));
+
+                matrizCeldas[f][c] = celda;
+                grid.add(celda);
+
+                if (colActual != null) colActual = colActual.derecha;
             }
-            inicioFila = inicioFila.abajo;
+            if (filaActual != null) filaActual = filaActual.abajo;
         }
-        return area;
+
+        panel.add(grid, BorderLayout.CENTER);
+        return panel;
+    }
+
+    public void actualizar() {
+        actualizarMatriz(3, 25, parqueo.getInicioSocios(), celdasSocios);
+        actualizarMatriz(5, 15, parqueo.getInicioGeneral(), celdasGeneral);
+    }
+
+    private void actualizarMatriz(int filas, int columnas,
+                                  Espacio inicio, JLabel[][] matrizCeldas) {
+        Espacio filaActual = inicio;
+        for (int f = 0; f < filas; f++) {
+            Espacio colActual = filaActual;
+            for (int c = 0; c < columnas; c++) {
+                if (colActual != null) {
+                    JLabel celda = matrizCeldas[f][c];
+                    Vehiculo v = colActual.getVehiculo();
+                    if (colActual.isOcupado() && v != null) {
+                        celda.setBackground(new Color(255, 102, 102));
+                        celda.setText(v.getPlaca());
+                    } else {
+                        celda.setBackground(new Color(144, 238, 144));
+                        celda.setText(colActual.getId());
+                    }
+                    colActual = colActual.derecha;
+                }
+            }
+            if (filaActual != null) filaActual = filaActual.abajo;
+        }
     }
 }

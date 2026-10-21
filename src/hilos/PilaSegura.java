@@ -16,4 +16,8 @@ public class PilaSegura<T> {
     public synchronized int getTamano() {
         return pila.getTamano();
     }
+
+    public synchronized T obtenerDesdeTope(int posicion) {
+    return pila.obtenerDesdeTope(posicion);
+}
 }

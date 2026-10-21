@@ -7,6 +7,7 @@ public class GaritaSalida implements Runnable {
     private final ColaSegura<Vehiculo> colaSalida;
     private final Parqueo parqueo;
     private final PilaSegura<Evento> eventos;
+    private volatile Vehiculo enAtencion;
 
     public GaritaSalida(String nombre, ColaSegura<Vehiculo> colaSalida,
                         Parqueo parqueo, PilaSegura<Evento> eventos) {
@@ -16,23 +17,27 @@ public class GaritaSalida implements Runnable {
         this.eventos = eventos;
     }
 
+    public Vehiculo getEnAtencion() { return enAtencion; }
+
     @Override
     public void run() {
         try {
             while (true) {
-                Vehiculo v = colaSalida.desencolar();        // 1. Se duerme si la cola está vacía
+                Vehiculo v = colaSalida.desencolar();
+                enAtencion = v;
                 Thread.sleep(800);
-                Espacio e = parqueo.liberar(v.getPlaca());  // 2. Libera el espacio buscando por placa
-                
+                Espacio e = parqueo.liberar(v.getPlaca());
                 if (e == null) {
                     eventos.apilar(new Evento(nombre + ": " + v.getPlaca() + " no estaba estacionado"));
                 } else {
                     v.setEstado("FUERA");
-                    eventos.apilar(new Evento(nombre + ": " + v.getPlaca() + " salió, espacio " + e.getId() + " liberado"));
+                    eventos.apilar(new Evento(nombre + ": " + v.getPlaca()
+                            + " salió, espacio " + e.getId() + " liberado"));
                 }
+                enAtencion = null;
             }
         } catch (InterruptedException ex) {
-            // Hilo detenido limpiamente
+            // hilo detenido
         }
     }
 }

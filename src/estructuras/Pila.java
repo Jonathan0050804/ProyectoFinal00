@@ -40,4 +40,18 @@ public class Pila<T> {
     public int getTamano() {
         return tamano;
     }
+
+    // Devuelve el dato en la posición dada, contando desde el tope (0 = el más reciente)
+public T obtenerDesdeTope(int posicion) {
+    NodoSimple<T> actual = tope;
+    int i = 0;
+    while (actual != null) {
+        if (i == posicion) {
+            return actual.dato;
+        }
+        actual = actual.siguiente;
+        i++;
+    }
+    return null;
+}
 }

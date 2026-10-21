@@ -43,4 +43,17 @@ public class Cola<T> {
     public int getTamano() {
         return tamano;
     }
+
+    public T obtenerEn(int posicion) {
+    NodoSimple<T> actual = frente;
+    int i = 0;
+    while (actual != null) {
+        if (i == posicion) {
+            return actual.dato;
+        }
+        actual = actual.siguiente;
+        i++;
+    }
+    return null;
+}
 }
