@@ -8,6 +8,7 @@ public class GaritaEntrada implements Runnable {
     private final Parqueo parqueo;
     private final PilaSegura<Evento> eventos;
     private final GestorResidentes gestor;
+    private volatile Vehiculo enAtencion;
 
     public GaritaEntrada(String nombre, ColaSegura<Vehiculo> colaEntrada,
                          Parqueo parqueo, PilaSegura<Evento> eventos,
@@ -19,17 +20,16 @@ public class GaritaEntrada implements Runnable {
         this.gestor = gestor;
     }
 
+    public Vehiculo getEnAtencion() { return enAtencion; }
+
     @Override
     public void run() {
         try {
             while (true) {
                 Vehiculo v = colaEntrada.desencolar();
-                enAtencion = v;                      // empieza a atender
+                enAtencion = v;
                 Thread.sleep(800);
-                                                    // ... asignar espacio y apilar evento ...
-                enAtencion = null;                   // termina
 
-                // Residente socio -> puede usar A-C; visitante o no socio -> solo general
                 Residente dueno = gestor.buscarDuenoPorPlaca(v.getPlaca());
                 boolean esSocio = (dueno != null && dueno.isSocio());
 
@@ -42,14 +42,10 @@ public class GaritaEntrada implements Runnable {
                     eventos.apilar(new Evento(nombre + ": " + v.getPlaca()
                             + " asignado al espacio " + e.getId()));
                 }
+                enAtencion = null;
             }
         } catch (InterruptedException ex) {
             // hilo detenido
         }
     }
-
-    private volatile Vehiculo enAtencion;   // null = libre
-
-public Vehiculo getEnAtencion() { return enAtencion; }
-
 }

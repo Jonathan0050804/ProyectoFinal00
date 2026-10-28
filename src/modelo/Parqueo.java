@@ -134,7 +134,7 @@ if (actual.isOcupado() && placa.equals(actual.getVehiculo().getPlaca())) {
         }
         return e;
     }
-    public synchronized Espacio asignarSegunTipo(Vehiculo v, boolean esSocio) {
+public synchronized Espacio asignarSegunTipo(Vehiculo v, boolean esSocio) {
     if (esSocio) {
         Espacio e = asignar(v, TipoEspacio.SOCIO);
         if (e != null) {
@@ -143,6 +143,7 @@ if (actual.isOcupado() && placa.equals(actual.getVehiculo().getPlaca())) {
     }
     return asignar(v, TipoEspacio.GENERAL);
 }
+   
 public Espacio getInicioGeneral() { return filasGeneral.obtenerPrimero(); }
 
 }
